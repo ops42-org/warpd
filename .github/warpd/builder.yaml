@@ -1,0 +1,5 @@
+name: 'Warpd-builder'
+description: 'Build docker image'
+runs:
+  using: 'docker'
+  image: 'docker.io/gp42/warpd-builder:main'
