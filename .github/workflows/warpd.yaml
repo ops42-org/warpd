@@ -1,0 +1,11 @@
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display the environment variables and their values
+        run: |
+          echo foobarz
+        shell: bash
