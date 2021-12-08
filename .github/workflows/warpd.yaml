@@ -11,4 +11,6 @@ jobs:
         shell: bash
       - name: Run Builder
         id: builder
-        uses: ops42-org/warpd/.github/actions/warpd-builder/action.yaml@main
+        uses: ops42-org/warpd-github-builder-action@main
+        with:
+          who-to-greet: 'Mona the Octocat'
