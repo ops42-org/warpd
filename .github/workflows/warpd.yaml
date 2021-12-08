@@ -9,3 +9,6 @@ jobs:
         run: |
           echo foobarz
         shell: bash
+      - name: Run Builder
+        id: builder
+        uses: ./.github/warpd-builder
