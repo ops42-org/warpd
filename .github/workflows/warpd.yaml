@@ -11,4 +11,4 @@ jobs:
         shell: bash
       - name: Run Builder
         id: builder
-        uses: ./.github/warpd-builder
+        uses: ops42-org/warpd/.github/actions/warpd-builder/action.yaml@main
