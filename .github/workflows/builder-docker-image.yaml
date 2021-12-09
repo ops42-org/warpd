@@ -42,3 +42,4 @@ jobs:
           push: true
           images: docker.io/gp42/warpd-builder
           tags: ${{ steps.meta.outputs.tags }}
+          file: Dockerfile-builder
