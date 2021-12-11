@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_GP42_TOKEN }}
       -
         name: Build and push - Builder
-        id: docker_build
+        id: docker_build_builder
         uses: docker/build-push-action@v2
         with:
           push: true
@@ -45,7 +45,7 @@ jobs:
           file: Dockerfile-builder
       -
         name: Build and push - Deployer
-        id: docker_build
+        id: docker_build_deployer
         uses: docker/build-push-action@v2
         with:
           push: true
