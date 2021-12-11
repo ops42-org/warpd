@@ -13,12 +13,22 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
-        name: Docker meta
-        id: meta
+        name: Docker meta - Builder
+        id: meta_builder
         uses: docker/metadata-action@v3
         with:
           images: |
             docker.io/gp42/warpd-builder
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix=,format=long
+      -
+        name: Docker meta - Deployer
+        id: meta_deployer
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            docker.io/gp42/warpd-deployer
           tags: |
             type=ref,event=branch
             type=sha,prefix=,format=long
@@ -40,8 +50,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          images: docker.io/gp42/warpd-builder
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta_builder.outputs.tags }}
           file: Dockerfile-builder
       -
         name: Build and push - Deployer
@@ -49,6 +58,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          images: docker.io/gp42/warpd-deployer
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta_deployer.outputs.tags }}
           file: Dockerfile-deployer
