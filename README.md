@@ -5,6 +5,7 @@
 ```mermaid
 graph TD;
     commit[New Commit to Branch]-->artifact[Build and publish Artifact];
+    artifact-.->docker([Docker Image])
     artifact-->exist{Environment Exists};
     exist-->|yes|deploy[Deploy to Environment]
     exist-->|no|createEnv[Create Environment]

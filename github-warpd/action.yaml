@@ -1,13 +1,14 @@
 name: 'Warpd action'
 description: 'Build and deploy'
 runs:
-  using: 'docker'
-  image: 'docker://gp42/warpd-builder:main'
+  using: 'composite'
   steps:
     # - name: Display the environment variables and their values
     #   run: |
     #     echo foobarz
     #   shell: bash
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Run Builder
       id: builder
       uses: ops42-org/warpd/github-builder@main

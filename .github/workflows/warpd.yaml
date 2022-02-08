@@ -5,11 +5,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Run Builder
         id: builder
         uses: ops42-org/warpd/github-builder@main
-        with:
-          who-to-greet: 'Mona the Octocat'
 
   deploy:
     runs-on: ubuntu-latest
@@ -17,7 +17,5 @@ jobs:
     steps:
       - name: Run Deployer
         id: deployer
-        uses: ops42-org/warpd-github-deployer-action@main
-        with:
-          who-to-greet: 'Mona the Octocat'
+        uses: ops42-org/warpd/github-deployer@main
 
