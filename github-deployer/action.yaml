@@ -1,0 +1,5 @@
+name: 'Warpd Deployer'
+description: 'Deploy to Environment'
+runs:
+  using: 'docker'
+  image: 'docker://gp42/warpd-deployer:main'
