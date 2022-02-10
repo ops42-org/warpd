@@ -5,7 +5,7 @@ jobs:
   build_matrix:
     runs_on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.get_matrix.outputs.matrix }
+      matrix: ${{ steps.get_matrix.outputs.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
