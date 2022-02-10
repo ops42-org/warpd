@@ -9,7 +9,7 @@ runs:
       id: get_matrix
       uses: docker://docker.io/gp42/warpd:main
       with:
-        args: github buildmatrix -c testdata/example/warpd.yaml
+        args: github buildmatrix
     - name: Echo matrix
       shell: bash
       run: echo '${{ steps.get_matrix.outputs.matrix }}'
