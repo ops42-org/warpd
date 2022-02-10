@@ -9,8 +9,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v2
       - name: Prepare GO
         uses: actions/setup-go@v2
@@ -19,53 +18,63 @@ jobs:
           check-latest: true
       - name: Build Warpd
         run: make
-      -
-        name: Docker meta - Builder
-        id: meta_builder
+      # - name: Docker meta - Builder
+      #   id: meta_builder
+      #   uses: docker/metadata-action@v3
+      #   with:
+      #     images: |
+      #       docker.io/gp42/warpd-builder
+      #     tags: |
+      #       type=ref,event=branch
+      #       type=sha,prefix=,format=long
+      # - name: Docker meta - Deployer
+      #   id: meta_deployer
+      #   uses: docker/metadata-action@v3
+      #   with:
+      #     images: |
+      #       docker.io/gp42/warpd-deployer
+      #     tags: |
+      #       type=ref,event=branch
+      #       type=sha,prefix=,format=long
+      - name: Docker meta - Warpd
+        id: meta_warpd
         uses: docker/metadata-action@v3
         with:
           images: |
-            docker.io/gp42/warpd-builder
+            docker.io/gp42/warpd
           tags: |
             type=ref,event=branch
-            type=sha,prefix=,format=long
-      -
-        name: Docker meta - Deployer
-        id: meta_deployer
-        uses: docker/metadata-action@v3
-        with:
-          images: |
-            docker.io/gp42/warpd-deployer
-          tags: |
-            type=ref,event=branch
-            type=sha,prefix=,format=long
-      -
-        name: Set up QEMU
+            type=sha,prefix=,format=long            
+      - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      -
-        name: Login to DockerHub
+      - name: Login to DockerHub
         uses: docker/login-action@v1 
         with:
           username: ${{ secrets.DOCKERHUB_GP42_USERNAME }}
           password: ${{ secrets.DOCKERHUB_GP42_TOKEN }}
-      -
-        name: Build and push - Builder
-        id: docker_build_builder
+      # - name: Build and push - Builder
+      #   id: docker_build_builder
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     push: true
+      #     pull: true
+      #     tags: ${{ steps.meta_builder.outputs.tags }}
+      #     file: Dockerfile-builder
+      # - name: Build and push - Deployer
+      #   id: docker_build_deployer
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     push: true
+      #     pull: true
+      #     tags: ${{ steps.meta_deployer.outputs.tags }}
+      #     file: Dockerfile-deployer
+      - name: Build and push - Warpd
+        id: docker_build_warpd
         uses: docker/build-push-action@v2
         with:
           push: true
           pull: true
-          tags: ${{ steps.meta_builder.outputs.tags }}
-          file: Dockerfile-builder
-      -
-        name: Build and push - Deployer
-        id: docker_build_deployer
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          pull: true
-          tags: ${{ steps.meta_deployer.outputs.tags }}
-          file: Dockerfile-deployer
+          tags: ${{ steps.meta_warpd.outputs.tags }}
+          file: Dockerfile          
