@@ -70,6 +70,10 @@ jobs:
       #     pull: true
       #     tags: ${{ steps.meta_deployer.outputs.tags }}
       #     file: Dockerfile-deployer
+      - name: Info
+        run: |
+          ls -lah
+          pwd
       - name: Build and push - Warpd
         id: docker_build_warpd
         uses: docker/build-push-action@v2
