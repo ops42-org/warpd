@@ -73,6 +73,7 @@ jobs:
       - name: Info
         run: |
           ls -lah
+          ls -lah build
           pwd
       - name: Build and push - Warpd
         id: docker_build_warpd
