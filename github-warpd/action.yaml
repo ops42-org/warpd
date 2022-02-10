@@ -11,6 +11,7 @@ runs:
       with:
         args: github buildmatrix -c testdata/example/warpd.yaml
     - name: Echo matrix
+      shell: bash
       run: echo '${{ steps.get_matrix.outputs.matrix }}'
     - name: Run Builder
       id: builder
