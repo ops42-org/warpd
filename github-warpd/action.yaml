@@ -5,6 +5,13 @@ runs:
   steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Get build matrix
+      id: get_matrix
+      uses: docker://docker.io/gp42/warpd:main
+      with:
+        args: github buildmatrix -c testdata/example/warpd.yaml
+    - name: Echo matrix
+      run: echo '${{ steps.get_matrix.outputs.matrix }}'
     - name: Run Builder
       id: builder
       uses: ops42-org/warpd/github-builder@main
