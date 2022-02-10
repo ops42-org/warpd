@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	config string = "config.yaml"
+	config string = "warpd.yaml"
 )
 
 func init() {

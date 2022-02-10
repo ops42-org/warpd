@@ -13,9 +13,9 @@ runs:
     - name: Echo matrix
       shell: bash
       run: echo '${{ steps.get_matrix.outputs.matrix }}'
-    - name: Run Builder
-      id: builder
-      uses: ops42-org/warpd/github-builder@main
-    - name: Run Deployer
-      id: deployer
-      uses: ops42-org/warpd/github-deployer@main
+    # - name: Run Builder
+    #   id: builder
+    #   uses: ops42-org/warpd/github-builder@main
+    # - name: Run Deployer
+    #   id: deployer
+    #   uses: ops42-org/warpd/github-deployer@main
