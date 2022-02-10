@@ -5,7 +5,7 @@
 ```mermaid
 graph TD;
     commit[New Commit to Branch]-->artifact[Build and publish Artifact];
-    artifact-.->docker([Docker Image])
+    artifact-. Docker Image .->docker[(Docker Registry)]
     artifact-->exist{Environment Exists};
     exist-->|yes|deploy[Deploy to Environment]
     exist-->|no|createEnv[Create Environment]
@@ -14,18 +14,37 @@ graph TD;
 ### Env mapping configuration
 ```yaml
 # warpd.yaml
-#- branch: regex
-#   cluster: name
-#   envName: regexWithGroups
+# build:
+#   - path: .
+#     name: app
+#     buildpack: XXX
+#     builder: gcr.io/buildpacks/builder:v1
+# envMapping:
+#   - branch: <regex>
+#     cluster: <Kubernetes cluster name>
+#     envName: <regexWithGroups>
+#     excludeBranches: [<branches to exclude, regex>]
+build:
+  - path: *
+    name: foo
+    buildpacks:
+      - foo
+
 envMapping:
   - branch: *
     excludeBranches:
       - main
       - staging
-    envName: test-\(1\)  
+    envName: test-\(1\)
+    cluster: test-us-east-1-1
   - branch: main
     envName: production
+    cluster: production-us-east-1-1
 ```
+
+## Required Parameters
+- Kubernetes Cluster
+- Docker registries
 
 ## Deployer
 - helm dep up

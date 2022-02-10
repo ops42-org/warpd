@@ -3,10 +3,6 @@ description: 'Build and deploy'
 runs:
   using: 'composite'
   steps:
-    # - name: Display the environment variables and their values
-    #   run: |
-    #     echo foobarz
-    #   shell: bash
     - name: Checkout
       uses: actions/checkout@v2
     - name: Run Builder

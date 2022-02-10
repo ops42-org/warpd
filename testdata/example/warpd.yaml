@@ -1,0 +1,21 @@
+build:
+  - path: '*'
+    buildpacks:
+      - foo
+  - path: '.'
+    buildpacks:
+      - fob
+  - path: 'code2'
+    buildpacks:
+      - cody
+
+envMapping:
+  - branch: '*'
+    excludeBranches:
+      - main
+      - staging
+    envName: test-\(1\)
+    cluster: test-us-east-1-1
+  - branch: main
+    envName: production
+    cluster: production-us-east-1-1

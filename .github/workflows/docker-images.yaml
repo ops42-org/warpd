@@ -12,6 +12,13 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
+      - name: Prepare GO
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
+          check-latest: true
+      - name: Build Warpd
+        run: make
       -
         name: Docker meta - Builder
         id: meta_builder
