@@ -3,7 +3,7 @@ on:
 
 jobs:
   build_matrix:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.get_matrix.outputs.matrix }}
     steps:
