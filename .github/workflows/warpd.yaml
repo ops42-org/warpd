@@ -22,7 +22,13 @@ jobs:
     needs: build_matrix
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.build_matrix.outputs.matrix)}}
+    # ${{fromJSON(needs.build_matrix.outputs.matrix)}}
+      matrix: 
+        include:
+        - name: foo
+          path: /foo
+        - name: bar
+          path: /bar
     steps:
       - name: Print
         shell: bash
