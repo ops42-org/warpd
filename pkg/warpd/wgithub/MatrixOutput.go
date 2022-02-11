@@ -13,13 +13,13 @@ import (
 )
 
 type MatrixOutput struct {
-	Include []MatrixInclude `yaml:"include"`
+	Include []MatrixInclude `json:"include"`
 }
 
 type MatrixInclude struct {
-	Path       *string  `yaml:"path"`
-	Name       *string  `yaml:"name"`
-	Buildpacks []string `yaml:"buildpacks"`
+	Path       *string  `json:"path"`
+	Name       *string  `json:"name"`
+	Buildpacks []string `json:"buildpacks"`
 }
 
 func NewMatrixOutput(config warpd.WarpdConfig, rootDir string) *MatrixOutput {

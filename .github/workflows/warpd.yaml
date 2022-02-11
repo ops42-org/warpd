@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: Print
         shell: bash
-        run: echo '${{ matrix.Name }} - ${{ matrix.Path }}'
+        run: echo '${{ matrix.name }} - ${{ matrix.path }}'
       # - name: Run Buildpacks
       #   uses: mamezou-tech/buildpacks-action@master
       #   with:
