@@ -21,13 +21,16 @@ jobs:
     strategy:
       matrix: ${{fromJson(needs.build_matrix.outputs.matrix)}}
     steps:
-      - name: Run Buildpacks
-        uses: mamezou-tech/buildpacks-action@master
-        with:
-          image: ${{ matrix.Name }}
-          tag: '1.0.0'
-          path: ${{ matrix.Path }}
-          builder: 'gcr.io/paketo-buildpacks/builder:base'        
+      - name: Print
+        shell: bash
+        run: echo '${{ matrix.Name }} - ${{ matrix.Path }}'
+      # - name: Run Buildpacks
+      #   uses: mamezou-tech/buildpacks-action@master
+      #   with:
+      #     image: ${{ matrix.Name }}
+      #     tag: '1.0.0'
+      #     path: ${{ matrix.Path }}
+      #     builder: 'gcr.io/paketo-buildpacks/builder:base'        
 
   # build:
   #   runs-on: ubuntu-latest
