@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: LS
+        shell: bash
+        run: ls -lah
       - name: Get build matrix
         id: get_matrix
         uses: docker://docker.io/gp42/warpd:main
@@ -22,24 +25,18 @@ jobs:
     needs: build_matrix
     runs-on: ubuntu-latest
     strategy:
-    # ${{fromJSON(needs.build_matrix.outputs.matrix)}}
-      matrix: 
-        include:
-        - name: foo
-          path: /foo
-        - name: bar
-          path: /bar
+      matrix: ${{fromJSON(needs.build_matrix.outputs.matrix)}}
     steps:
       - name: Print
         shell: bash
         run: echo '${{ matrix.name }} - ${{ matrix.path }}'
-      # - name: Run Buildpacks
-      #   uses: mamezou-tech/buildpacks-action@master
-      #   with:
-      #     image: ${{ matrix.Name }}
-      #     tag: '1.0.0'
-      #     path: ${{ matrix.Path }}
-      #     builder: 'gcr.io/paketo-buildpacks/builder:base'        
+      - name: Run Buildpacks
+        uses: mamezou-tech/buildpacks-action@master
+        with:
+          image: '${{ matrix.name }}'
+          tag: '1.0.0'
+          path: '${{ matrix.path }}'
+          builder: 'gcr.io/paketo-buildpacks/builder:base'        
 
   # build:
   #   runs-on: ubuntu-latest
