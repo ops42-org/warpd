@@ -10,9 +10,20 @@ runs:
       uses: docker://docker.io/gp42/warpd:main
       with:
         args: github buildmatrix
-    - name: Echo matrix
+    - name: Debug
       shell: bash
-      run: echo '${{ steps.get_matrix.outputs.matrix }}'
+      run: |
+        echo '${{ steps.get_matrix.outputs.matrix }}'
+        env
+
+    - name: Run Buildpacks
+      uses: mamezou-tech/buildpacks-action@master
+      with:
+        image: 'foo-app'
+        tag: '1.0.0'
+        path: 'path/to/foo-app/'
+        builder: 'gcr.io/paketo-buildpacks/builder:base'
+        env: 'HELLO=WORLD FOO=BAR BAZ'      
     # - name: Run Builder
     #   id: builder
     #   uses: ops42-org/warpd/github-builder@main
