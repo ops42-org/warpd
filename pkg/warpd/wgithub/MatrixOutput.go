@@ -5,11 +5,16 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/ops42-org/warpd/pkg/util"
 	"github.com/ops42-org/warpd/pkg/warpd"
 
 	"gopkg.in/yaml.v2"
+)
+
+const (
+	DEFAULT_BUILDER = "gcr.io/buildpacks/builder:v1"
 )
 
 type MatrixOutput struct {
@@ -19,7 +24,18 @@ type MatrixOutput struct {
 type MatrixInclude struct {
 	Path       *string  `json:"path"`
 	Name       *string  `json:"name"`
+	Builder    *string  `json:"builder"`
 	Buildpacks []string `json:"buildpacks"`
+	Env        *string  `json:"env"`
+}
+
+func strMapToStr(m map[string]string, separator string) string {
+	out := ""
+
+	for k, v := range m {
+		out += fmt.Sprintf("%s%s=%s", separator, k, v)
+	}
+	return strings.TrimLeft(out, separator)
 }
 
 func NewMatrixOutput(config warpd.WarpdConfig, rootDir string) *MatrixOutput {
@@ -39,6 +55,7 @@ func NewMatrixOutput(config warpd.WarpdConfig, rootDir string) *MatrixOutput {
 			if f.IsDir() {
 				dirs = append(dirs, match)
 
+				// Override image name with repo name for root path
 				name := util.StrPtr(filepath.Base(match))
 				if w, wPresent := os.LookupEnv("GITHUB_WORKSPACE"); wPresent {
 					if match == w {
@@ -51,7 +68,9 @@ func NewMatrixOutput(config warpd.WarpdConfig, rootDir string) *MatrixOutput {
 				for i, v := range out.Include {
 					if *v.Path == match {
 						out.Include[i].Name = name
+						out.Include[i].Builder = util.DefaultStrPtr(v.Builder, DEFAULT_BUILDER)
 						out.Include[i].Buildpacks = b.Buildpacks
+						out.Include[i].Env = util.StrPtr(strMapToStr(b.Env, " "))
 						continue matchLoop
 					}
 				}
@@ -59,7 +78,9 @@ func NewMatrixOutput(config warpd.WarpdConfig, rootDir string) *MatrixOutput {
 				out.Include = append(out.Include, MatrixInclude{
 					Path:       util.StrPtr(match),
 					Name:       name,
+					Builder:    util.DefaultStrPtr(b.Builder, DEFAULT_BUILDER),
 					Buildpacks: b.Buildpacks,
+					Env:        util.StrPtr(strMapToStr(b.Env, " ")),
 				})
 			}
 		}

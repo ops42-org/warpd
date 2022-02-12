@@ -38,7 +38,8 @@ jobs:
           image: '${{ matrix.name }}'
           tag: '1.0.0'
           path: '${{ matrix.path }}'
-          builder: 'gcr.io/paketo-buildpacks/builder:base'        
+          builder: '${{ matrix.builder }}'
+          env: '${{ matrix.env }}'
 
   # build:
   #   runs-on: ubuntu-latest

@@ -1,13 +1,16 @@
 build:
-  - path: '*'
-    buildpacks:
-      - foo
   - path: '.'
     buildpacks:
       - fob
   - path: 'code2'
+    builder: 'paketobuildpacks/builder:base'
     buildpacks:
       - cody
+    env:
+      FOO: BARRR
+      BOO: |
+        omg
+        multiline
 
 envMapping:
   - branch: '*'

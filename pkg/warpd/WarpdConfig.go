@@ -29,8 +29,10 @@ func LoadConfig(configPath string) (*WarpdConfig, error) {
 }
 
 type WarpdConfigBuild struct {
-	Path       *string  `yaml:"path"`
-	Buildpacks []string `yaml:"buildpacks"`
+	Path       *string           `yaml:"path"`
+	Builder    *string           `yaml:"builder"`
+	Buildpacks []string          `yaml:"buildpacks"`
+	Env        map[string]string `yaml:"env"`
 }
 
 type WarpdConfigEnvMapping struct {
