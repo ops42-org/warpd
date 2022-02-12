@@ -29,9 +29,13 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.build_matrix.outputs.matrix)}}
     steps:
-      - name: Print
+      - name: Debug
         shell: bash
-        run: echo '${{ matrix.name }} - ${{ matrix.path }}'
+        run: |
+          echo '${{ matrix.name }} - ${{ matrix.path }}'
+          pwd
+          env
+          ls -lah
       - name: Run Buildpacks
         uses: mamezou-tech/buildpacks-action@master
         with:
