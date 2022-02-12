@@ -9,9 +9,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: LS
-        shell: bash
-        run: ls -lah
       - name: Get build matrix
         id: get_matrix
         uses: docker://docker.io/gp42/warpd:main
@@ -22,6 +19,8 @@ jobs:
         run: |
           echo '${{ steps.get_matrix.outputs.matrix }}'
           env
+          pwd
+          ls -lah
 
   build:
     needs: build_matrix
@@ -29,12 +28,14 @@ jobs:
     strategy:
       matrix: ${{fromJSON(needs.build_matrix.outputs.matrix)}}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Debug
         shell: bash
         run: |
           echo '${{ matrix.name }} - ${{ matrix.path }}'
-          pwd
           env
+          pwd
           ls -lah
       - name: Run Buildpacks
         uses: mamezou-tech/buildpacks-action@master
