@@ -37,11 +37,18 @@ jobs:
           env
           pwd
           ls -lah
+      - name: Docker meta - Warpd
+        id: docker_meta
+        uses: docker/metadata-action@v3
+        with:
+          tags: |
+            type=sha,format=long
+            type=sha,prefix={{branch}}.,format=long
       - name: Run Buildpacks
         uses: mamezou-tech/buildpacks-action@master
         with:
           image: '${{ matrix.name }}'
-          tag: '1.0.0'
+          tag: '${{ steps.meta_warpd.outputs.tags }}'
           path: '${{ matrix.path }}'
           builder: '${{ matrix.builder }}'
           env: '${{ matrix.env }}'
