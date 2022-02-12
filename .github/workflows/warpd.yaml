@@ -41,6 +41,7 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v3
         with:
+          images: '${{ matrix.name }}'
           tags: |
             type=sha,format=long
             type=sha,prefix={{branch}}.,format=long
