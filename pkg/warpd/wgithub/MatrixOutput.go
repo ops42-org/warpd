@@ -39,9 +39,18 @@ func NewMatrixOutput(config warpd.WarpdConfig, rootDir string) *MatrixOutput {
 			if f.IsDir() {
 				dirs = append(dirs, match)
 
+				name := util.StrPtr(filepath.Base(match))
+				if w, wPresent := os.LookupEnv("GITHUB_WORKSPACE"); wPresent {
+					if match == w {
+						if r, rPresent := os.LookupEnv("GITHUB_REPOSITORY"); rPresent {
+							name = util.StrPtr(filepath.Base(r))
+						}
+					}
+				}
+
 				for i, v := range out.Include {
 					if *v.Path == match {
-						out.Include[i].Name = util.StrPtr(filepath.Base(match))
+						out.Include[i].Name = name
 						out.Include[i].Buildpacks = b.Buildpacks
 						continue matchLoop
 					}
@@ -49,7 +58,7 @@ func NewMatrixOutput(config warpd.WarpdConfig, rootDir string) *MatrixOutput {
 
 				out.Include = append(out.Include, MatrixInclude{
 					Path:       util.StrPtr(match),
-					Name:       util.StrPtr(filepath.Base(match)),
+					Name:       name,
 					Buildpacks: b.Buildpacks,
 				})
 			}
