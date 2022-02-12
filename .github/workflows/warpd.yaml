@@ -17,9 +17,11 @@ jobs:
         uses: docker://docker.io/gp42/warpd:main
         with:
           args: github buildmatrix
-      - name: Echo matrix
+      - name: Debug
         shell: bash
-        run: echo '${{ steps.get_matrix.outputs.matrix }}'
+        run: |
+          echo '${{ steps.get_matrix.outputs.matrix }}'
+          env
 
   build:
     needs: build_matrix
